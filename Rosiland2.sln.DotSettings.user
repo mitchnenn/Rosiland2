@@ -1,0 +1,8 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=cd06b4af_002Db684_002D4e3f_002Da1a7_002Dde0796a12c46/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Increase test #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::88731112-A1BF-4AB4-B18F-49C867A31E3E::net5.0::LongestIncreasingSequenceTests+Increase and decrease function tests&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::88731112-A1BF-4AB4-B18F-49C867A31E3E::net5.0::StringUtilityTests+String to character array tests.Char count test&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	</wpf:ResourceDictionary>
