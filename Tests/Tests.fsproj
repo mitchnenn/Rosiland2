@@ -30,7 +30,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Common\Common.fsproj" />
-      <ProjectReference Include="..\Problems\Problems.fsproj" />
+      <ProjectReference Include="..\Solutions\Solutions.fsproj" />
     </ItemGroup>
 
 </Project>

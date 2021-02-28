@@ -4,7 +4,7 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Common", "Common\Common.fsp
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Tests", "Tests\Tests.fsproj", "{88731112-A1BF-4AB4-B18F-49C867A31E3E}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Problems", "Problems\Problems.fsproj", "{2A01B1FB-139A-4C94-97D5-F891EC3B632A}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Solutions", "Solutions\Solutions.fsproj", "{2A01B1FB-139A-4C94-97D5-F891EC3B632A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
