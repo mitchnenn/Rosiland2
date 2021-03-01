@@ -1,5 +1,6 @@
 module LongestIncreasingSequenceTests
 
+open System.IO
 open Xunit
 open Xunit.Abstractions
 open FsUnit
@@ -36,28 +37,44 @@ type ``Find increasing sequence test`` (output:ITestOutputHelper) =
         // Arrange.
         let input = [8; 2; 1; 6; 5; 7; 4; 3; 9]
         // Act.
-        let result = findSub isIncrease input
+        let result = findFirstSubSeq isIncrease (input |> List.tail) (input |> List.head)
         output.WriteLine(sprintf "%A" result)
         // Assert.
         result |> should equal [8; 9]
-
-    [<Fact>]
-    member this.``Find all increasing sequences`` () =
-        // Arrange.
-        let input = [8; 2; 1; 6; 5; 7; 4; 3; 9]
-        // Act.
-        let result = findAllSubs isIncrease input
-        output.WriteLine(sprintf "%A" result)
-        // Assert.
-        result |> should equal [2; 6; 7; 9]
 
     [<Fact>]
     member this.``Find first decreasing sequence`` () =
         // Arrange.
         let input = [8; 2; 1; 6; 5; 7; 4; 3; 9]
         // Act.
-        let result = findAllSubs isDecrease input
+        let result = findLongestSub isDecrease input
         output.WriteLine(sprintf "%A" result)
         // Assert.
         result |> should equal [8; 6; 5; 4; 3]
-        
+
+    [<Fact>]
+    member this.``Find longest of all increasing sequences`` () =
+        // Arrange.
+        let input = [8; 2; 1; 6; 5; 7; 4; 3; 9]
+        // Act.
+        let result = findLongestSub isIncrease input
+        output.WriteLine(sprintf "%A" result)
+        // Assert.
+        result |> should equal [8; 9]
+
+    [<Fact>]
+    member this.``Find longest all decreasing sequences`` () =
+        // Arrange.
+        let input = [8; 2; 1; 6; 5; 7; 4; 3; 9]
+        // Act.
+        let result = findLongestSub isDecrease input
+        output.WriteLine(sprintf "%A" result)
+        // Assert.
+        result |> should equal [8; 6; 5; 4; 3]
+
+    [<Fact>]
+    member this.``Parse sample data test.`` =
+        // Arrange.
+        let file = Path.Combine(__SOURCE_DIRECTORY__, "Data", "LongestIncSeq.txt")
+        // Act.
+         

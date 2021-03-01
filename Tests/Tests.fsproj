@@ -11,6 +11,7 @@
         <Compile Include="StringUtilityTests.fs" />
         <Compile Include="LongestIncreasingSequenceTests.fs" />
         <Compile Include="Program.fs" />
+        <Content Include="Data\LongestIncSeq.txt" />
     </ItemGroup>
 
     <ItemGroup>
