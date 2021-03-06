@@ -23,15 +23,26 @@ let getResult result =
     |> List.rev
     |> List.head
 
-let findLongestSub criteria input =
-    let start = input |> List.head
+let findLongestSubConstantStart criteria start input =
     let rec loop rest result =
         match rest with
         | [] -> getResult result
         | _::ys ->
             let subSeq = findFirstSubSeq criteria rest start
             loop ys (subSeq::result)
-    loop (input |> List.tail) []
+    loop input []    
+
+let findLongestSub criteria input =
+    let rec loop rest acc =
+        match rest with
+        | [] -> getResult acc
+        | x::xs ->
+            match xs with
+            | [] -> loop xs acc
+            | _ ->
+                let seq = findLongestSubConstantStart criteria x xs
+                loop xs (seq::acc)
+    loop input []
 
 type LongSubSampleData = {count:int; sequence:int list}
 
