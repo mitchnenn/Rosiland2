@@ -1,5 +1,6 @@
 module LongestIncreasingSequenceTests
 
+open System
 open System.IO
 open Xunit
 open Xunit.Abstractions
@@ -60,7 +61,7 @@ type ``Find increasing sequence test`` (output:ITestOutputHelper) =
         let result = findLongestSub isIncrease input
         output.WriteLine(sprintf "%A" result)
         // Assert.
-        result |> should equal [8; 9]
+        result |> should equal [2; 6; 7; 9]
 
     [<Fact>]
     member this.``Find longest all decreasing sequences`` () =
@@ -73,8 +74,38 @@ type ``Find increasing sequence test`` (output:ITestOutputHelper) =
         result |> should equal [8; 6; 5; 4; 3]
 
     [<Fact>]
-    member this.``Parse sample data test.`` =
+    member this.``Parse single entry test``() =
         // Arrange.
-        let file = Path.Combine(__SOURCE_DIRECTORY__, "Data", "LongestIncSeq.txt")
+        let singleEntry = $"5{Environment.NewLine}5 1 4 2 3"
         // Act.
-         
+        let result = parseSingleEntry singleEntry
+        output.WriteLine(sprintf "%A" result)
+        // Assert.
+        result.count |> should equal 5
+        result.sequence |> should equal [5; 1; 4; 2; 3]
+
+    [<Fact>]
+    member this.``Parse single sample entry in file test`` () =
+        // Arrange.
+        let path = Path.Combine(__SOURCE_DIRECTORY__, "Data", "LongestIncSeq1.txt")
+        // Act.
+        let result = parseSampleEntriesFile path
+        output.WriteLine(sprintf "%A" result)
+        // Assert.
+        result |> List.length |> should equal 1
+        
+    [<Fact>]
+    member this.``Detect longest increasing and decreasing sequence`` () =
+        // Arrange.
+        let path = Path.Combine(__SOURCE_DIRECTORY__, "Data", "LongestIncSeq1.txt")
+        let input = parseSampleEntriesFile path |> List.head
+        output.WriteLine(sprintf "%A" input)
+        // Act.
+        let inc = findLongestSub isIncrease input.sequence
+        output.WriteLine(sprintf "%A" inc)
+        let dec = findLongestSub isDecrease input.sequence
+        output.WriteLine(sprintf "%A" dec)
+        // Assert
+        inc |> should equal [1;2;3]
+        dec |> should equal [5;4;2]
+        

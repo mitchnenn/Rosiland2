@@ -8,13 +8,15 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <Compile Include="FParsecTestUtils.fs" />
         <Compile Include="StringUtilityTests.fs" />
         <Compile Include="LongestIncreasingSequenceTests.fs" />
         <Compile Include="Program.fs" />
-        <Content Include="Data\LongestIncSeq.txt" />
+        <Content Include="Data\LongestIncSeq1.txt" />
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="FParsec" Version="1.1.1" />
         <PackageReference Include="FsUnit" Version="4.0.4" />
         <PackageReference Include="FsUnit.xUnit" Version="4.0.4" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
