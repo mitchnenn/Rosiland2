@@ -15,7 +15,7 @@ type ``Increase and decrease function tests`` (output:ITestOutputHelper) =
     member this.``Increase test`` (x, y, expected) =
         // Arrange
         // Act
-        let result = isIncrease x y
+        let result = isIncreasing x y
         output.WriteLine(sprintf "%b" result)
         // Assert
         result |> should equal expected
@@ -26,7 +26,7 @@ type ``Increase and decrease function tests`` (output:ITestOutputHelper) =
     member this.``Decrease test`` (x, y, expected) =
         // Arrange
         // Act
-        let result = isDecrease x y
+        let result = isDecreasing x y
         output.WriteLine(sprintf "%b" result)
         // Assert
         result |> should equal expected
@@ -38,7 +38,7 @@ type ``Find increasing sequence test`` (output:ITestOutputHelper) =
         // Arrange.
         let input = [8; 2; 1; 6; 5; 7; 4; 3; 9]
         // Act.
-        let result = findFirstSubSeq isIncrease (input |> List.tail) (input |> List.head)
+        let result = findSeqByCriteria isIncreasing input
         output.WriteLine(sprintf "%A" result)
         // Assert.
         result |> should equal [8; 9]
@@ -48,17 +48,17 @@ type ``Find increasing sequence test`` (output:ITestOutputHelper) =
         // Arrange.
         let input = [8; 2; 1; 6; 5; 7; 4; 3; 9]
         // Act.
-        let result = findLongestSub isDecrease input
+        let result = findSeqByCriteria isDecreasing input
         output.WriteLine(sprintf "%A" result)
         // Assert.
-        result |> should equal [8; 6; 5; 4; 3]
+        result |> should equal [8; 2; 1;]
 
     [<Fact>]
     member this.``Find longest of all increasing sequences`` () =
         // Arrange.
         let input = [8; 2; 1; 6; 5; 7; 4; 3; 9]
         // Act.
-        let result = findLongestSub isIncrease input
+        let result = findLongestByCriteria isIncreasing input
         output.WriteLine(sprintf "%A" result)
         // Assert.
         result |> should equal [2; 6; 7; 9]
@@ -68,7 +68,7 @@ type ``Find increasing sequence test`` (output:ITestOutputHelper) =
         // Arrange.
         let input = [8; 2; 1; 6; 5; 7; 4; 3; 9]
         // Act.
-        let result = findLongestSub isDecrease input
+        let result = findLongestByCriteria isDecreasing input
         output.WriteLine(sprintf "%A" result)
         // Assert.
         result |> should equal [8; 6; 5; 4; 3]
@@ -101,9 +101,9 @@ type ``Find increasing sequence test`` (output:ITestOutputHelper) =
         let input = parseSampleEntriesFile path |> List.head
         output.WriteLine(sprintf "%A" input)
         // Act.
-        let inc = findLongestSub isIncrease input.sequence
+        let inc = findLongestByCriteria isIncreasing input.sequence
         output.WriteLine(sprintf "%A" inc)
-        let dec = findLongestSub isDecrease input.sequence
+        let dec = findLongestByCriteria isDecreasing input.sequence
         output.WriteLine(sprintf "%A" dec)
         // Assert
         inc |> should equal [1;2;3]

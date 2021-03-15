@@ -3,35 +3,43 @@ module LongestIncreasingSequence
 open System.Text
 open FParsec
 
-let isIncrease x y = y > x
+let isIncreasing x y = x < y
 
-let isDecrease x y = x > y
+let isDecreasing x y = x > y
 
-let findFirstSubSeq criteria seq start =
-    let rec loop rest result =
-        match rest with
-        | [] -> result |> List.rev
-        | x::xs -> 
-            match criteria (result |> List.head) x with
-            | true -> loop xs (x::result)
-            | false -> loop xs result
-    loop seq [start]
-   
-let getResult result =
-    result
-    |> List.sortBy (fun i -> i |> List.length)
+let addToResultSeqByCriteria criteria acc next =
+    if criteria (acc |> List.head) next then
+        next::acc
+    else
+        acc
+
+let findSeqByCriteria criteria input =
+    List.fold (addToResultSeqByCriteria criteria) [input |> List.head] (input |> List.tail)
     |> List.rev
-    |> List.head
 
-let findLongestSub criteria input =
-    let start = input |> List.head
-    let rec loop rest result =
-        match rest with
-        | [] -> getResult result
-        | _::ys ->
-            let subSeq = findFirstSubSeq criteria rest start
-            loop ys (subSeq::result)
-    loop (input |> List.tail) []
+let getLongestSeq currentSeq nextSeq = 
+    if (nextSeq |> List.length) > (currentSeq |> List.length) then
+        nextSeq
+    else
+        currentSeq
+
+let findLongestSeqByCriteriaForFirstElement criteria input =
+    let head = input |> List.head
+    let rec loop currentLongestSeq restOfInputSeq =
+        match restOfInputSeq with
+        | [] -> currentLongestSeq
+        | _::xs ->
+            match xs with
+            | [] -> loop currentLongestSeq []
+            | _ -> loop (getLongestSeq currentLongestSeq (findSeqByCriteria criteria (head::xs))) xs
+    loop [] input
+
+let findLongestByCriteria criteria input =
+    let rec loop currentLongestSeq values =
+        match values with
+        | [] -> currentLongestSeq
+        | _::xs -> loop (getLongestSeq currentLongestSeq (findLongestSeqByCriteriaForFirstElement criteria values)) xs
+    loop [] input
 
 type LongSubSampleData = {count:int; sequence:int list}
 
@@ -44,13 +52,13 @@ let parseSingleEntry input =
     let reply = run longSubSampleParser input
     match reply with
     | Success(result,_,_) -> result |> (fun r -> {count = fst(r); sequence = snd(r)})
-    | Failure(_,_,_) -> {count = 0; sequence = []}
+    | Failure _ -> {count = 0; sequence = []}
     
 let parseSampleEntriesFile path =
     let entries = many1 longSubSampleParser
     let reply = runParserOnFile entries () path Encoding.UTF8
     match reply with
     | Success(result,_,_) -> result |> List.map (fun r -> {count = fst(r); sequence = snd(r)})
-    | Failure(_,_,_) -> List.empty
+    | Failure _ -> List.empty
     
      
