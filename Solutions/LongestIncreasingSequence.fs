@@ -63,5 +63,4 @@ let parseSampleEntriesFile path =
     match reply with
     | Success(result,_,_) -> result |> List.map (fun r -> {count = fst(r); sequence = snd(r)})
     | Failure(_,_,_) -> List.empty
-    
-     
+         

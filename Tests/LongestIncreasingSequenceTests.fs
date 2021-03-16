@@ -109,3 +109,22 @@ type ``Find increasing sequence test`` (output:ITestOutputHelper) =
         inc |> should equal [1;2;3]
         dec |> should equal [5;4;2]
         
+    member this.printOutput (alist:int list) =
+        let templist = alist |> List.map (fun i -> string (i.ToString() + " ")) |> List.toArray
+        let astring = String.Concat(templist)
+        output.WriteLine(astring)
+    
+    [<Fact>]
+    member this.``Solve the Rosiland problem`` () =
+        // Arrange.
+        let path = Path.Combine(__SOURCE_DIRECTORY__, "Data", "LongestIncSeq2.txt")
+        let input = parseSampleEntriesFile path |> List.head
+        output.WriteLine(sprintf "%i" input.count)
+        output.WriteLine(sprintf "%A" input.sequence)
+        // Act.
+//        let inc = findLongestSub isIncrease input.sequence
+//        let dec = findLongestSub isDecrease input.sequence
+
+//        this.printOutput inc
+//        this.printOutput dec
+        true |> should equal true
