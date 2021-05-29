@@ -1,6 +1,7 @@
 module LongestIncreasingSequenceTests
 
 open System
+open System.Diagnostics
 open System.IO
 open Xunit
 open Xunit.Abstractions
@@ -31,48 +32,7 @@ type ``Increase and decrease function tests`` (output:ITestOutputHelper) =
         // Assert
         result |> should equal expected
 
-type ``Find increasing sequence test`` (output:ITestOutputHelper) =
-    
-    [<Fact>]
-    member this.``Find first increasing sequence test`` () =
-        // Arrange.
-        let input = [8; 2; 1; 6; 5; 7; 4; 3; 9]
-        // Act.
-        let result = findSeqByCriteria isIncreasing input
-        output.WriteLine(sprintf "%A" result)
-        // Assert.
-        result |> should equal [8; 9]
-
-    [<Fact>]
-    member this.``Find first decreasing sequence`` () =
-        // Arrange.
-        let input = [8; 2; 1; 6; 5; 7; 4; 3; 9]
-        // Act.
-        let result = findSeqByCriteria isDecreasing input
-        output.WriteLine(sprintf "%A" result)
-        // Assert.
-        result |> should equal [8; 2; 1;]
-
-    [<Fact>]
-    member this.``Find longest of all increasing sequences`` () =
-        // Arrange.
-        let input = [8; 2; 1; 6; 5; 7; 4; 3; 9]
-        // Act.
-        let result = findLongestByCriteria isIncreasing input
-        output.WriteLine(sprintf "%A" result)
-        // Assert.
-        result |> should equal [2; 6; 7; 9]
-
-    [<Fact>]
-    member this.``Find longest all decreasing sequences`` () =
-        // Arrange.
-        let input = [8; 2; 1; 6; 5; 7; 4; 3; 9]
-        // Act.
-        let result = findLongestByCriteria isDecreasing input
-        output.WriteLine(sprintf "%A" result)
-        // Assert.
-        result |> should equal [8; 6; 5; 4; 3]
-
+type ``Parse file tests`` (output:ITestOutputHelper) =
     [<Fact>]
     member this.``Parse single entry test``() =
         // Arrange.
@@ -93,7 +53,33 @@ type ``Find increasing sequence test`` (output:ITestOutputHelper) =
         output.WriteLine(sprintf "%A" result)
         // Assert.
         result |> List.length |> should equal 1
-        
+
+type ``Find increasing sequence test`` (output:ITestOutputHelper) =
+    
+    [<Fact>]
+    member this.``Find first increasing sequence test`` () =
+        // Arrange.
+        let input = [8; 2; 1; 6; 5; 7; 4; 3; 9]
+        // Act.
+        let stopWatch = Stopwatch()
+        stopWatch.Start()
+        let result = findLongestSeq input isIncreasing
+        stopWatch.Stop()
+        output.WriteLine(sprintf "%A" result)
+        output.WriteLine(sprintf "%d" stopWatch.ElapsedMilliseconds)
+        // Assert.
+        result |> should equal [1; 5; 7; 9]
+
+    [<Fact>]
+    member this.``Find first decreasing sequence`` () =
+        // Arrange.
+        let input = [8; 2; 1; 6; 5; 7; 4; 3; 9]
+        // Act.
+        let result = findLongestSeq input isDecreasing
+        output.WriteLine(sprintf "%A" result)
+        // Assert.
+        result |> should equal [8; 6; 5; 4; 3;]
+
     [<Fact>]
     member this.``Detect longest increasing and decreasing sequence`` () =
         // Arrange.
@@ -101,13 +87,13 @@ type ``Find increasing sequence test`` (output:ITestOutputHelper) =
         let input = parseSampleEntriesFile path |> List.head
         output.WriteLine(sprintf "%A" input)
         // Act.
-        let inc = findLongestByCriteria isIncreasing input.sequence
+        let inc = findLongestSeq input.sequence isIncreasing
         output.WriteLine(sprintf "%A" inc)
-        let dec = findLongestByCriteria isDecreasing input.sequence
+        let dec = findLongestSeq input.sequence isDecreasing
         output.WriteLine(sprintf "%A" dec)
         // Assert
         inc |> should equal [1;2;3]
-        dec |> should equal [5;4;2]
+        dec |> should equal [5;4;3]
         
     member this.printOutput (alist:int list) =
         let templist = alist |> List.map (fun i -> string (i.ToString() + " ")) |> List.toArray
@@ -119,12 +105,13 @@ type ``Find increasing sequence test`` (output:ITestOutputHelper) =
         // Arrange.
         let path = Path.Combine(__SOURCE_DIRECTORY__, "Data", "LongestIncSeq2.txt")
         let input = parseSampleEntriesFile path |> List.head
-        output.WriteLine(sprintf "%i" input.count)
-        output.WriteLine(sprintf "%A" input.sequence)
         // Act.
-//        let inc = findLongestSub isIncrease input.sequence
-//        let dec = findLongestSub isDecrease input.sequence
-
-//        this.printOutput inc
-//        this.printOutput dec
+        output.WriteLine("Increasing sequence ...")
+        let inc = findLongestSeq input.sequence isIncreasing
+        output.WriteLine("printing ...")
+        this.printOutput inc
+        output.WriteLine("Decreasing sequence ...")
+        let dec = findLongestSeq input.sequence isDecreasing
+        output.WriteLine("printing ...")
+        this.printOutput dec
         true |> should equal true
