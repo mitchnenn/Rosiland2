@@ -10,11 +10,13 @@
     <ItemGroup>
         <Compile Include="FParsecTestUtils.fs" />
         <Compile Include="StringUtilityTests.fs" />
+        <Compile Include="ParseFastaTests.fs" />
         <Compile Include="LongestIncreasingSequenceTests.fs" />
         <Compile Include="Program.fs" />
         <Content Include="Data\LongestIncSeq2.txt" />
         <Content Include="Data\LongestIncSeq1.txt" />
         <Content Include="Data\answer.txt" />
+        <None Include="Data\data.fasta" />
     </ItemGroup>
 
     <ItemGroup>

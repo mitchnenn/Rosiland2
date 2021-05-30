@@ -6,6 +6,11 @@
 
     <ItemGroup>
         <Compile Include="StringUtilities.fs" />
+        <Compile Include="ParseFasta.fs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="FParsec" Version="1.1.1" />
     </ItemGroup>
 
 </Project>
