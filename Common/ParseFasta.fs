@@ -1,26 +1,38 @@
 module ParseFasta
 
+open System.IO
 open System.Text
 open FParsec
 
-let delimiter = ">"
+type FastaRecord = {Description:string; Sequence:string}
 
-let id = pstring delimiter
-         >>. many1CharsTill anyChar newline
-         
-let sequenceChars = 
-    let isSeqChar c = c = 'A' || c = 'C' || c = 'G' || c = 'T'
-    many1Satisfy isSeqChar
+let descriptionStart = '>'
 
-let sequence =
-    many1Strings (sequenceChars .>> newline)
+let isDescriptionStart (c:char) = c = descriptionStart
 
-let entries = many1 (tuple2 id sequence)
+let allCharsExceptDescriptionStart (c:char) = (isDescriptionStart c) <> true
 
-type FastaRecord = {Id:string; Sequence:string}
+let readRawEntries (path:string) = seq {
+    use stream = new FileStream (path, FileMode.Open)
+    use charStream = new CharStream (stream, Encoding.UTF8)
+    while charStream.IsEndOfStream <> true do
+        let entry = charStream.ReadCharsOrNewlinesWhile(isDescriptionStart, allCharsExceptDescriptionStart, true)
+        yield entry.Trim()
+}
+
+let id = pchar descriptionStart >>. many1CharsTill anyChar newline
+
+let sequence = many1Chars ( anyChar .>> optional newline )
+
+let parseEntry (entry:string) : FastaRecord =
+    let recordParser = tuple2 id sequence
+    let reply = run recordParser entry
+    match reply with
+    | Success(result,_,_) -> {Description=fst result; Sequence=snd result}
+    | Failure(msg,_,_) -> failwith msg
 
 let parseFastaEntries (path:string) =
-    let reply = runParserOnFile entries () path Encoding.UTF8
-    match reply with
-    | Success(result, _, _) -> result |> List.map(fun t -> {Id=(fst t);Sequence=(snd t)})
-    | Failure(_,_,_) -> List.empty
+    path
+    |> readRawEntries
+    |> Seq.toList
+    |> List.map (fun e -> parseEntry e)

@@ -12,11 +12,14 @@
         <Compile Include="StringUtilityTests.fs" />
         <Compile Include="ParseFastaTests.fs" />
         <Compile Include="LongestIncreasingSequenceTests.fs" />
+        <Compile Include="ShortestSuperstringTests.fs" />
         <Compile Include="Program.fs" />
         <Content Include="Data\LongestIncSeq2.txt" />
         <Content Include="Data\LongestIncSeq1.txt" />
         <Content Include="Data\answer.txt" />
         <None Include="Data\data.fasta" />
+        <Content Include="Data\shortest-superstring-1.txt" />
+        <Content Include="Data\shortest-superstring-2.txt" />
     </ItemGroup>
 
     <ItemGroup>
