@@ -1,16 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-    <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
-    </PropertyGroup>
-
-    <ItemGroup>
-        <Compile Include="StringUtilities.fs" />
-        <Compile Include="ParseFasta.fs" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <PackageReference Include="FParsec" Version="1.1.1" />
-    </ItemGroup>
-
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="MathUtilities.fs" />
+    <Compile Include="StringUtilities.fs" />
+    <Compile Include="ParseFasta.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="FParsec" Version="1.1.1" />
+  </ItemGroup>
 </Project>
