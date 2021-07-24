@@ -10,6 +10,8 @@ open LongestIncreasingSequence
 
 type ``Increase and decrease function tests`` (output:ITestOutputHelper) =
 
+    
+
     [<Theory>]
     [<InlineData(1,2,true)>]
     [<InlineData(4,3,false)>]
