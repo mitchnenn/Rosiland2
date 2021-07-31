@@ -5,6 +5,7 @@
     <GenerateProgramFile>false</GenerateProgramFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Converter.fs" />
     <Compile Include="FParsecTestUtils.fs" />
     <Compile Include="StringUtilityTests.fs" />
     <Compile Include="ParseFastaTests.fs" />
@@ -32,6 +33,11 @@
     <PackageReference Include="coverlet.collector" Version="1.3.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="xunit.runner.console" Version="2.4.1">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+      <GeneratePathProperty></GeneratePathProperty>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

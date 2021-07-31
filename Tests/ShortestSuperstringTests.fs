@@ -5,10 +5,13 @@ open System.IO
 open Xunit
 open Xunit.Abstractions
 open FsUnit
+open Converter
 open ParseFasta
 open ShortestSuperstring
+open System.Diagnostics
 
 type ``Shortest super string tests`` (output:ITestOutputHelper) =
+    do new Converter(output) |> Console.SetOut
 
     [<Theory>]
     [<InlineData("CCTGCCGGAA", "GCCGGAATAC", "CCTGCCGGAATAC")>]
@@ -49,10 +52,21 @@ type ``Shortest super string tests`` (output:ITestOutputHelper) =
         // Arrange
         let path = Path.Combine(__SOURCE_DIRECTORY__, "Data", "shortest-superstring-2.txt")
         let fastaSeqs = parseFastaEntries path |> List.map (fun e -> e.Sequence)
-        
         // Act
         let result = findShortestSuperString fastaSeqs
-        Console.WriteLine(result)
-
+        output.WriteLine(sprintf "%A" result)
         // Assert
         result |> should equal "ATTAGACCTGCCGGAATAC"
+
+    //[<Fact>]
+    member this.``Answer Rosalind problem`` () =
+        // Arrange
+        let path = Path.Combine(__SOURCE_DIRECTORY__, "Data", "shortest-superstring-1.txt")
+        let fastaSeqs = parseFastaEntries path |> List.map (fun e -> e.Sequence)
+        // Act
+        let result = findShortestSuperString fastaSeqs
+        Debug.WriteLine(result)
+        // Assert
+        let answerPath = Path.Combine(__SOURCE_DIRECTORY__, "Data", "shortest-superstring-answer.txt")
+        File.WriteAllText(answerPath, result)
+        ()
