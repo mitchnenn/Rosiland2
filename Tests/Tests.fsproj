@@ -11,7 +11,7 @@
     <Compile Include="StringUtilityTests.fs" />
     <Compile Include="ParseFastaTests.fs" />
     <Compile Include="ListUtilitiesTests.fs" />
-    <Compile Include="CountNucleotideBaseTests.fs" />
+    <Compile Include="NucleotideBaseTests.fs" />
     <Compile Include="LongestIncreasingSequenceTests.fs" />
     <Compile Include="ShortestSuperstringTests.fs" />
     <Compile Include="Program.fs" />
@@ -22,6 +22,8 @@
     <Content Include="Data\shortest-superstring-1.txt" />
     <Content Include="Data\shortest-superstring-2.txt" />
     <None Include="Data\dna_nucleotide_bases.txt" />
+    <None Include="Data\transscirbe_dna_to_rna.txt" />
+    <Content Include="app.config" />
     <PackageReference Include="FParsec" Version="1.1.1" />
     <PackageReference Include="FsUnit" Version="4.0.4" />
     <PackageReference Include="FsUnit.xUnit" Version="4.0.4" />
@@ -42,6 +44,5 @@
     </PackageReference>
     <ProjectReference Include="..\Common\Common.fsproj" />
     <ProjectReference Include="..\Solutions\Solutions.fsproj" />
-    <Content Include="app.config" />
   </ItemGroup>
 </Project>

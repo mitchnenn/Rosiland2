@@ -25,3 +25,16 @@ type CountNucleotideBaseTests(output:ITestOutputHelper) =
         // Assert
         counts |> List.length |> should equal 4
         counts |> List.map(fun (_,c) -> c) |> should equal [20;12;17;21]
+
+    [<Fact>]
+    member __.``Transscribe DNA to RNA test`` () =
+        // Arrange.
+        let path = Path.Combine(__SOURCE_DIRECTORY__, "Data", "transscirbe_dna_to_rna.txt")
+        let dnaString = File.ReadAllText(path).Trim()
+        output.WriteLine(sprintf "%s" dnaString)
+        // Act.
+        let rnaString = transscribeDnaStringToRnaString dnaString
+        // Assert.
+        rnaString |> should equal "GAUGGAACUUGACUACGUAAAUU"
+        output.WriteLine(rnaString)
+
