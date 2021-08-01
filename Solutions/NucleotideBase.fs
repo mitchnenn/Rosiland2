@@ -14,7 +14,7 @@ let charToNucleotideBase (c:char) =
     | 'G' | 'g' -> Guanine
     | 'T' | 't' -> Thymine
     | 'U' | 'u' -> Uracil
-    | _ -> failwith "Not a Nucleotide Base."
+    | _ -> failwith (sprintf "Undefined Nucleotide Base: '%c'." c)
 
 let nucleotideBaseToChar (n:NucleotideBase) =
     match n with
@@ -40,9 +40,26 @@ let dnaBaseToRnaBase (n:NucleotideBase) =
     | _ -> n
 
 let transscribeDnaStringToRnaString (dnaString:string) : string =
-    let listOfChars = dnaString
-                      |> getNucleotides
-                      |> List.map(fun n -> dnaBaseToRnaBase n)
-                      |> List.map(fun n -> nucleotideBaseToChar n)
-                      |> List.toArray
-    new string(listOfChars)
+    new string(dnaString
+               |> getNucleotides
+               |> List.map(fun n -> dnaBaseToRnaBase n)
+               |> List.map(fun n -> nucleotideBaseToChar n)
+               |> List.toArray)
+
+let complimentNucleotideBase (n:NucleotideBase) =
+    match n with
+    | Adenine -> Thymine
+    | Thymine -> Adenine
+    | Cytosine -> Guanine
+    | Guanine -> Cytosine
+    | _ -> failwith (sprintf "Nucleotide base compliment not defined: '%A'." n)
+
+let reverseComplimentNucleotideBase (dnaString:string) : string =
+    new string(
+        dnaString
+        |> getNucleotides
+        |> List.rev
+        |> List.map (fun n -> complimentNucleotideBase n)
+        |> List.map (fun n -> nucleotideBaseToChar n)
+        |> List.toArray)
+

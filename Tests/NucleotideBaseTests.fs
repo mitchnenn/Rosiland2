@@ -38,3 +38,46 @@ type CountNucleotideBaseTests(output:ITestOutputHelper) =
         rnaString |> should equal "GAUGGAACUUGACUACGUAAAUU"
         output.WriteLine(rnaString)
 
+
+    [<Theory>]
+    [<InlineData("ACGT", "ACGT")>]
+    [<InlineData("AAAACCCGGT", "ACCGGGTTTT")>]
+    member __.``Reverse compliment DNA string test`` (dnaString, expected) =
+        // Arrange.
+        // Act.
+        let result = reverseComplimentNucleotideBase dnaString
+        // Assert.
+        result |> should equal expected
+
+    [<Fact>]
+    member __.``Reverse compliment problem solved test`` () =
+        // Arrange.
+        let path = Path.Combine(__SOURCE_DIRECTORY__, "Data", "reverse_compliment_input.txt")
+        let dnaString = File.ReadAllText(path).Trim()
+        // Act.
+        let result = reverseComplimentNucleotideBase dnaString
+        output.WriteLine(sprintf "%s" result)
+        // Assert.
+        result |> should equal ("TCGAGACGAAGTAATACTCTTCAACGATACTTCATGGC"
+                                + "CTACAACTTTGGCTGAGCATATCAAATATGTCGCTTG"
+                                + "ACGAGTTTCAACTATCAATCCTTTATGTTATCGCTCCC"
+                                + "AGACAGACAACGCAAGTTATCTTACTATTTCGGAAAAA"
+                                + "AGGGCTGAACTGGTCGATACGCAGTAAGCAATCGCCGAA"
+                                + "GCCCGTACCCATTGTGGCTAGCCCACCTAAATGCCTGTG"
+                                + "GTGCCCGCACGTAGTTCTAACTTGTGAAAATGGGGCTT"
+                                + "CTTTGTTGTTAGAGACGCTGTACCCGCCGCCCAATGTT"
+                                + "GAAGGTACTAGTAGCAGGCGCTGTCCTCGAAAGTTCCCC"
+                                + "CGTTTCCATTATGCTGACACGAGCAGGTATTGGGATAGC"
+                                + "TAGGCTGCGGAGTATGATTTGGGAGCGCCCTCATGCCCA"
+                                + "TTCCTAGAATCCAAAATAACACTGTGAGATGGGCAAAGT"
+                                + "ACACAATGGGTTTGGACGAGGATACCCATCGCCCCTCCA"
+                                + "TGTATCCCCTTAGTGACCCCTGGGAAAAACCAGTGACCT"
+                                + "GGTGGTATCGGGCATGCTCAACACAAGTTGTCTTGACACG"
+                                + "CCTGACCAGTGCATGGGGAGCCACATACCATGTCAATT"
+                                + "TAGCTATTTAAATGACTCAATTGGAAATTCATGAACGA"
+                                + "GCCACTACCACGCCGAGTCGTGCCTGGGATACACACGGC"
+                                + "TAAGCCGGCTAACAAAATTAGCACCGAATGTGATCCACG"
+                                + "CAGCGGGTTCGTTCCTAGGCAAACGTCAGAAAGTAGGA"
+                                + "AGGATTATAGCTTGGTGTTGATATTCCCTGTCTACATGCT"
+                                + "GCGGGTGACGCTCCTGTCTAAT")
+

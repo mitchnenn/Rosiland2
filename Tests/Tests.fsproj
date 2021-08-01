@@ -23,6 +23,7 @@
     <Content Include="Data\shortest-superstring-2.txt" />
     <None Include="Data\dna_nucleotide_bases.txt" />
     <None Include="Data\transscirbe_dna_to_rna.txt" />
+    <None Include="Data\reverse_compliment_input.txt" />
     <Content Include="app.config" />
     <PackageReference Include="FParsec" Version="1.1.1" />
     <PackageReference Include="FsUnit" Version="4.0.4" />
