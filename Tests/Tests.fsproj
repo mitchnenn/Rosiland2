@@ -7,9 +7,11 @@
   <ItemGroup>
     <Compile Include="Converter.fs" />
     <Compile Include="FParsecTestUtils.fs" />
+    <Compile Include="FParsecHelper.fs" />
     <Compile Include="StringUtilityTests.fs" />
     <Compile Include="ParseFastaTests.fs" />
     <Compile Include="ListUtilitiesTests.fs" />
+    <Compile Include="CountNucleotideBaseTests.fs" />
     <Compile Include="LongestIncreasingSequenceTests.fs" />
     <Compile Include="ShortestSuperstringTests.fs" />
     <Compile Include="Program.fs" />
@@ -19,8 +21,7 @@
     <None Include="Data\data.fasta" />
     <Content Include="Data\shortest-superstring-1.txt" />
     <Content Include="Data\shortest-superstring-2.txt" />
-  </ItemGroup>
-  <ItemGroup>
+    <None Include="Data\dna_nucleotide_bases.txt" />
     <PackageReference Include="FParsec" Version="1.1.1" />
     <PackageReference Include="FsUnit" Version="4.0.4" />
     <PackageReference Include="FsUnit.xUnit" Version="4.0.4" />
@@ -39,9 +40,8 @@
       <PrivateAssets>all</PrivateAssets>
       <GeneratePathProperty></GeneratePathProperty>
     </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Common\Common.fsproj" />
     <ProjectReference Include="..\Solutions\Solutions.fsproj" />
+    <Content Include="app.config" />
   </ItemGroup>
 </Project>

@@ -1,21 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-    <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
-        <RootNamespace>Problems</RootNamespace>
-    </PropertyGroup>
-
-    <ItemGroup>
-        <Compile Include="LongestIncreasingSequence.fs" />
-        <Compile Include="ShortestSuperstring.fs" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <PackageReference Include="FParsec" Version="1.1.1" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\Common\Common.fsproj" />
-    </ItemGroup>
-
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>Problems</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="NucleotideBase.fs" />
+    <Compile Include="LongestIncreasingSequence.fs" />
+    <Compile Include="ShortestSuperstring.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="FParsec" Version="1.1.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.fsproj" />
+  </ItemGroup>
 </Project>
