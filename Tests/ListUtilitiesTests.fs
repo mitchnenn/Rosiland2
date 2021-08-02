@@ -23,15 +23,3 @@ type ``List utilities tests`` (output:ITestOutputHelper) =
         output.WriteLine(sprintf "%A" permutations)
         permutations |> List.length |> should equal (factorial 4)
 
-    [<Fact>]
-    member this.``Collect by first test`` () =
-        // Arrange
-        let path = Path.Combine(__SOURCE_DIRECTORY__, "Data", "shortest-superstring-2.txt")
-        let fastaSeqs = parseFastaEntries path |> List.map (fun e -> e.Sequence)
-
-        // Act
-        let permutations = collectByFirst fastaSeqs
-
-        // Assert.
-        output.WriteLine(sprintf "%A" permutations)
-        permutations |> List.length |> should equal 3
