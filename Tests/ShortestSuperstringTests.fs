@@ -43,6 +43,16 @@ type ``Shortest super string tests`` (output:ITestOutputHelper) =
         // Assert
         result |> should equal "ATTAGACCTGCCGGAATAC"
 
+    [<Fact>]
+    member __.``Permute reads forward test`` () =
+        // Arrange
+        let reads = ["ATTAGACCTG"; "CCTGCCGGAA"; "AGACCTGCCG"; "GCCGGAATAC"]
+        // Act.
+        let result = permuteForward reads |> Seq.toList
+        printf "%A" result
+        // Assert
+        result.[0] |> should equal ["ATTAGACCTG"; "CCTGCCGGAA"; "AGACCTGCCG"; "GCCGGAATAC"]
+
     [<Theory>]
     [<InlineData("shortest-superstring-2.txt")>]
     [<InlineData("shortest-superstring-1.txt")>]
