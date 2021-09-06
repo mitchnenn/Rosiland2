@@ -35,28 +35,39 @@ type ``Shortest super string tests`` (output:ITestOutputHelper) =
         overlap |> should equal expected
 
     [<Fact>]
-    member this.``Example shortest superstring Rosiland test`` () =
+    member __.``Get overlaps test`` () =
+        // Arrange.
+        let reads = ["ATTAGACCTG"; "CCTGCCGGAA"; "AGACCTGCCG"; "GCCGGAATAC"]
+        // Act.
+        let overlaps = reads |> getOverlaps
+        output.WriteLine(sprintf "%A" overlaps)
+        // Assert.
+        overlaps |> should equal ["ATTAGACCTGCCG"; "CCTGCCGGAATAC"; "AGACCTGCCGGAA"]
+
+    [<Fact>]
+    member __.``Concat overlaps test`` () =
+        // Arrange.
+        let overlaps = ["ATTAGACCTGCCG"; "CCTGCCGGAATAC"; "AGACCTGCCGGAA"]
+        // Act.
+        let superstring = concatOverlaps overlaps
+        output.WriteLine(sprintf "%s" superstring)
+        // Assert.
+        superstring |> should equal "ATTAGACCTGCCGGAATAC"
+
+    [<Fact>]
+    member _.``Rosiland example shortest superstring test`` () =
         // Arrange
         let reads = ["ATTAGACCTG"; "CCTGCCGGAA"; "AGACCTGCCG"; "GCCGGAATAC"]
         // Act
         let result = getShortestSuperstring reads
+        output.WriteLine(result)
         // Assert
         result |> should equal "ATTAGACCTGCCGGAATAC"
-
-    [<Fact>]
-    member __.``Permute reads forward test`` () =
-        // Arrange
-        let reads = ["ATTAGACCTG"; "CCTGCCGGAA"; "AGACCTGCCG"; "GCCGGAATAC"]
-        // Act.
-        let result = permuteForward reads |> Seq.toList
-        printf "%A" result
-        // Assert
-        result.[0] |> should equal ["ATTAGACCTG"; "CCTGCCGGAA"; "AGACCTGCCG"; "GCCGGAATAC"]
 
     [<Theory>]
     [<InlineData("shortest-superstring-2.txt")>]
     [<InlineData("shortest-superstring-1.txt")>]
-    member __.``Input from Rosiland test`` (filename:string) =
+    member _.``Fasta input shortest superstring test`` (filename:string) =
         // Arrange.
         let path = Path.Combine(__SOURCE_DIRECTORY__, "Data", filename)
         let reads = parseFastaEntries path |> List.map(fun r -> r.Sequence)
