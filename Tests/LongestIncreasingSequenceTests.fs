@@ -10,8 +10,6 @@ open LongestIncreasingSequence
 
 type ``Increase and decrease function tests`` (output:ITestOutputHelper) =
 
-    
-
     [<Theory>]
     [<InlineData(1,2,true)>]
     [<InlineData(4,3,false)>]
@@ -57,7 +55,7 @@ type ``Parse file tests`` (output:ITestOutputHelper) =
         result |> List.length |> should equal 1
 
 type ``Find increasing sequence test`` (output:ITestOutputHelper) =
-    
+
     [<Fact>]
     member this.``Find first increasing sequence test`` () =
         // Arrange.
@@ -96,12 +94,12 @@ type ``Find increasing sequence test`` (output:ITestOutputHelper) =
         // Assert
         inc |> should equal [1;2;3]
         dec |> should equal [5;4;3]
-        
+
     member this.printOutput (alist:int list) =
         let templist = alist |> List.map (fun i -> string (i.ToString() + " ")) |> List.toArray
         let astring = String.Concat(templist)
         output.WriteLine(astring)
-    
+
     [<Fact>]
     member this.``Solve the Rosiland problem`` () =
         // Arrange.
