@@ -1,5 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{6F92D9D2-BBD1-43BB-A731-E467E28627CD}"
+	ProjectSection(SolutionItems) = preProject
+		paket.dependencies = paket.dependencies
+	EndProjectSection
+EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Common", "Common\Common.fsproj", "{BCD57CAB-6F4D-4933-BD2F-156E0B23D0A6}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Tests", "Tests\Tests.fsproj", "{88731112-A1BF-4AB4-B18F-49C867A31E3E}"

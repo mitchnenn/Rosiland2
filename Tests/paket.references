@@ -1,0 +1,9 @@
+FParsec
+FsUnit
+FsUnit.xUnit
+Microsoft.NET.Test.Sdk
+xunit
+xunit.runner.visualstudio
+coverlet.collector
+xunit.runner.console
+FSharp.Core
