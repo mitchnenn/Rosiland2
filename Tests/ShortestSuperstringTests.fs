@@ -12,81 +12,66 @@ open ShortestSuperstring
 type ``Shortest super string tests`` (output:ITestOutputHelper) =
     do new Converter(output) |> Console.SetOut
 
+    [<Fact>]
+    member __.``Valid suffixes test`` () =
+        // Arrange.
+        let input = "ATTAGACCTG"
+        // Act.
+        let suffixes = validSuffixes input
+        output.WriteLine(sprintf "%A" suffixes)
+        // Assert.
+        suffixes |> should equal ["ATTAGACCTG";"TTAGACCTG";"TAGACCTG";"AGACCTG";"GACCTG";"ACCTG"]
+
     [<Theory>]
-    [<InlineData("CCTGCCGGAA", "GCCGGAATAC", "CCTGCCGGAATAC")>]
     [<InlineData("ATTAGACCTG", "AGACCTGCCG", "ATTAGACCTGCCG")>]
-    [<InlineData("AGACCTGCCG", "CCTGCCGGAA", "AGACCTGCCGGAA")>]
-    [<InlineData("AGACCTGCCGGAA", "CCTGCCGGAATAC", "AGACCTGCCGGAATAC")>]
-    member this.``Find minimum overlap test`` ((prefix:string), (suffix:string), (expected:string)) =
+    [<InlineData("ATTAGACCTG", "ATTAGACCTG", "")>]
+    [<InlineData("ATTAGACCTG", "CCTGCCGGAA", "")>]
+    member __.``Try find overlap test`` (currentRead:string, currentCompare:string, expected:string ) =
         // Arrange.
         // Act.
-        let overlapStringOption = overlap prefix suffix
-        // Assert.
-        match overlapStringOption with
-        | Some r -> r |> should equal expected
-        | None -> ()
-
-    [<Fact>]
-    member this.``Find overlaps for prefix with many suffixes test`` () =
-        // Arrange.
-        let reads = ["CCTGCCGGAA"; "ATTAGACCTG"; "AGACCTGCCG"; "GCCGGAATAC"]
-        // Act.
-        let result = overlapsForPrefixAndSuffixes reads.Head reads.Tail
-        // Assert.
-        result |> List.length |> should equal 1
-        result.[0] |> should equal "CCTGCCGGAATAC"
-
-    [<Fact>]
-    member this.``Permute reads test.`` () =
-        // Arrange.
-        let path = Path.Combine(__SOURCE_DIRECTORY__, "Data", "shortest-superstring-2.txt")
-        let fastaSeqs = parseFastaEntries path |> List.map (fun e -> e.Sequence)
-        // Act.
-        let permutations = permuteReads fastaSeqs
-        output.WriteLine(sprintf "%A" permutations)
-        // Assert.
-        permutations |> List.length |> should equal fastaSeqs.Length
-        File.WriteAllText(Path.Combine(Directory.GetCurrentDirectory(), "permutations.txt"), sprintf "%A" permutations)
-
-    [<Fact>]
-    member __.``Find all overlaps for prefixes with permutations of suffixes test`` () =
-        // Arrange.
-        let path = Path.Combine(__SOURCE_DIRECTORY__, "Data", "shortest-superstring-2.txt")
-        let fastaSeqs = parseFastaEntries path |> List.map (fun e -> e.Sequence)
-        // Act.
-        let overlaps = findOverlapsForPrefixesAndSuffixes fastaSeqs
-        // Assert.
-        ()
-
-    [<Fact>]
-    member this.``Find all overlaps for all permutations test`` () =
-        // Arrange
-        let path = Path.Combine(__SOURCE_DIRECTORY__, "Data", "shortest-superstring-2.txt")
-        let fastaSeqs = parseFastaEntries path |> List.map (fun e -> e.Sequence)
-        // Act
-        let overlaps = permutateReadsAndFindOverlaps fastaSeqs
+        let overlapOption = tryGetOverlap currentRead currentCompare
+        let overlap = match overlapOption with | Some r -> r | None -> ""
         // Assert
-        overlaps |> should equivalent ["CCTGCCGGAATAC"; "ATTAGACCTGCCG"; "AGACCTGCCGGAA"]
+        overlap |> should equal expected
 
     [<Fact>]
-    member this.``Find shortest super string test`` () =
+    member __.``Get overlaps test`` () =
+        // Arrange.
+        let reads = ["ATTAGACCTG"; "CCTGCCGGAA"; "AGACCTGCCG"; "GCCGGAATAC"]
+        // Act.
+        let overlaps = reads |> getOverlaps
+        output.WriteLine(sprintf "%A" overlaps)
+        // Assert.
+        overlaps |> should equal ["ATTAGACCTGCCG"; "CCTGCCGGAATAC"; "AGACCTGCCGGAA"]
+
+    [<Fact>]
+    member __.``Concat overlaps test`` () =
+        // Arrange.
+        let overlaps = ["ATTAGACCTGCCG"; "CCTGCCGGAATAC"; "AGACCTGCCGGAA"]
+        // Act.
+        let superstring = concatOverlaps overlaps
+        output.WriteLine(sprintf "%s" superstring)
+        // Assert.
+        superstring |> should equal "ATTAGACCTGCCGGAATAC"
+
+    [<Fact>]
+    member _.``Rosiland example shortest superstring test`` () =
         // Arrange
-        let path = Path.Combine(__SOURCE_DIRECTORY__, "Data", "shortest-superstring-2.txt")
-        let fastaSeqs = parseFastaEntries path |> List.map (fun e -> e.Sequence)
+        let reads = ["ATTAGACCTG"; "CCTGCCGGAA"; "AGACCTGCCG"; "GCCGGAATAC"]
         // Act
-        let result = findShortestSuperString fastaSeqs
-        output.WriteLine(sprintf "%s" result)
+        let result = getShortestSuperstring reads
+        output.WriteLine(result)
         // Assert
         result |> should equal "ATTAGACCTGCCGGAATAC"
 
-    [<Fact>]
-    member this.``Answer Rosalind problem`` () =
-        // Arrange
-        let path = Path.Combine(__SOURCE_DIRECTORY__, "Data", "shortest-superstring-1.txt")
-        let fastaSeqs = parseFastaEntries path |> List.map (fun e -> e.Sequence)
-        // Act
-        let result = findShortestSuperString fastaSeqs
-        output.WriteLine(sprintf "%s" result)
-        // Assert
-        let answerPath = Path.Combine(Directory.GetCurrentDirectory(), "shortest-superstring.txt")
-        File.WriteAllText(answerPath, result)
+    [<Theory>]
+    [<InlineData("shortest-superstring-2.txt")>]
+    [<InlineData("shortest-superstring-1.txt")>]
+    member _.``Fasta input shortest superstring test`` (filename:string) =
+        // Arrange.
+        let path = Path.Combine(__SOURCE_DIRECTORY__, "Data", filename)
+        let reads = parseFastaEntries path |> List.map(fun r -> r.Sequence)
+        // Act.
+        let shortestSubstring = getShortestSuperstring reads
+        printf "%s" shortestSubstring
+        ()

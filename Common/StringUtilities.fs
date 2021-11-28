@@ -24,4 +24,8 @@ let implode (x:char list) =
     let sb = StringBuilder(x.Length)
     x |> List.iter (sb.Append >> ignore)
     sb.ToString()
-        
+
+let filter (where:string list) (except:string list) : string list =
+    where
+    |> List.filter (fun i -> except |> List.exists (fun t -> t = i) |> not)
+
