@@ -7,3 +7,4 @@ xunit.runner.visualstudio
 coverlet.collector
 xunit.runner.console
 FSharp.Core
+FSharpPlus
